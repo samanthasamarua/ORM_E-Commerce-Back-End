@@ -42,7 +42,7 @@ Product.init(
         model: 'Category',
         key: 'id',
         unique: false
-      }
+      },
 
     },
   },
