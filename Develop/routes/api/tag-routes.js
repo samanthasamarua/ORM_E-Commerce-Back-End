@@ -1,8 +1,7 @@
 const router = require('express').Router();
 const { Tag, Product, ProductTag } = require('../../models');
 
-// The `/api/tags` endpoint
-
+// Find all Tags
 router.get('/', async (req, res) => {
   try {
     const tagData = await Tag.findAll({
@@ -16,7 +15,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-
+// Find a single tag by its `id`
 router.get('/:id', async (req, res) => {
   try {
     const tagData = await Tag.findByPk(req.params.id, {
@@ -36,9 +35,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-  // find a single tag by its `id`
-  // be sure to include its associated Product data
-
+// Create a new Tag
 router.post('/', async (req, res) => {
   try {
     const tagData = await Tag.create(req.body);
@@ -46,32 +43,25 @@ router.post('/', async (req, res) => {
   } catch (err) {
     res.status(400).json(err);
   }
-  // create a new tag
 });
 
+// Update a new Tag
 router.put('/:id', async (req, res) => {
   try {
-    // Check if the tag exists
     const tagData = await Tag.findByPk(req.params.id);
-    
-    // If tag not found, return 404 Not Found
     if (!tagData) {
       return res.status(404).json({ message: 'Tag not found.' });
     }
-
-    // Update the tag's name with the new value from the request body
     await tagData.update({ tag_name: req.body.tag_name });
 
-    // Return the updated tag
     res.status(200).json(tagData);
   } catch (err) {
-    // Handle any errors that occur during the update process
     console.error(err);
     res.status(500).json({ message: 'Failed to update tag' });
   }
-  // update a tag's name by its `id` value
 });
 
+// Delete a tag by it's id value
 router.delete('/:id', async (req, res) => {
   try {
     const tagData = await Tag.destroy({
@@ -89,7 +79,7 @@ router.delete('/:id', async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-  // delete on tag by its `id` value
+
 });
 
 module.exports = router;
